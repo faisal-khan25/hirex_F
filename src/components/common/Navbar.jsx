@@ -1,5 +1,5 @@
 import { memo, useCallback, useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useNotifications } from '../../context/NotificationContext';
 import './Navbar.css';
@@ -25,12 +25,18 @@ const CHAT_PATH = {
 };
 
 function Navbar() {
-  const { user, logout }                   = useAuth();
-  const { unreadCount }                    = useNotifications();
-  const navigate                           = useNavigate();
-  const location                           = useLocation();
-  const [scrolled, setScrolled]            = useState(false);
-  const [menuOpen, setMenuOpen]            = useState(false);
+  const { user, logout }        = useAuth();
+  const { unreadCount }         = useNotifications();
+  const navigate                = useNavigate();
+  const location                = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  // Tracks which nav item is "active" for styling purposes.
+  // Route-based links (Contact Us) are derived from location.pathname instead.
+  const [activeSection, setActiveSection] = useState(
+    location.pathname === '/' ? (location.hash ? location.hash.slice(1) : 'home') : null
+  );
 
   /* shrink / glass effect on scroll */
   useEffect(() => {
@@ -42,6 +48,11 @@ function Navbar() {
   /* close mobile menu on route change */
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
+  /* if we leave "/" entirely (e.g. go to /contact), clear scroll-based active state */
+  useEffect(() => {
+    if (location.pathname !== '/') setActiveSection(null);
+  }, [location.pathname]);
+
   const handleLogout = useCallback(() => {
     logout();
     navigate('/login');
@@ -50,6 +61,7 @@ function Navbar() {
   const handleScroll = useCallback((id) => (e) => {
     e.preventDefault();
     setMenuOpen(false);
+    setActiveSection(id);
     if (location.pathname === '/') {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     } else {
@@ -57,10 +69,11 @@ function Navbar() {
     }
   }, [location.pathname, navigate]);
 
-  const isActive = (link) => {
+  // Unified active check used for both desktop + drawer nav
+  const isLinkActive = useCallback((link) => {
     if (link.type === 'route') return location.pathname === link.to;
-    return false;
-  };
+    return activeSection === link.id;
+  }, [location.pathname, activeSection]);
 
   // Badge: only show for roles that have chat
   const showBadge = user && unreadCount > 0 && (user.role === 'JOBSEEKER' || user.role === 'MANAGER');
@@ -72,48 +85,53 @@ function Navbar() {
         <div className="navbar__inner">
 
           {/* ── Logo ── */}
-          <Link to="/" className="navbar__logo" aria-label="HireX Home">
+          <NavLink to="/" end className="navbar__logo" aria-label="HireX Home">
             Hire<span>X</span>
-          </Link>
+          </NavLink>
 
           {/* ── Center links (desktop) ── */}
           <ul className="navbar__links">
-            {NAV_LINKS.map((link) =>
-              link.type === 'scroll' ? (
+            {NAV_LINKS.map((link) => {
+              const active = isLinkActive(link);
+              return link.type === 'scroll' ? (
                 <li key={link.id}>
-                  <Link
+                  <NavLink
                     to={`/#${link.id}`}
                     onClick={handleScroll(link.id)}
-                    className={`navbar__link${isActive(link) ? ' navbar__link--active' : ''}`}
+                    className={`navbar__link${active ? ' navbar__link--active' : ''}`}
+                    aria-current={active ? 'page' : undefined}
                   >
                     {link.label}
-                  </Link>
+                  </NavLink>
                 </li>
               ) : (
                 <li key={link.to}>
-                  <Link
+                  <NavLink
                     to={link.to}
-                    className={`navbar__link${isActive(link) ? ' navbar__link--active' : ''}`}
-                    aria-current={isActive(link) ? 'page' : undefined}
+                    onClick={() => setActiveSection(null)}
+                    className={({ isActive }) =>
+                      `navbar__link${isActive ? ' navbar__link--active' : ''}`
+                    }
+                    aria-current={active ? 'page' : undefined}
                   >
                     {link.label}
-                  </Link>
+                  </NavLink>
                 </li>
-              )
-            )}
+              );
+            })}
           </ul>
 
           {/* ── Right auth section (desktop) ── */}
           <div className="navbar__auth">
             {!user ? (
               <>
-                <Link to="/login" className="navbar__login">Login</Link>
-                <Link to="/register" className="navbar__register">Get Started</Link>
+                <NavLink to="/login" className="navbar__login">Login</NavLink>
+                <NavLink to="/register" className="navbar__register">Get Started</NavLink>
               </>
             ) : (
               <>
                 {/* ── Notification bell ── */}
-                <Link
+                <NavLink
                   to={chatPath}
                   className="navbar__notif-btn"
                   aria-label={unreadCount > 0 ? `${unreadCount} unread messages` : 'Messages'}
@@ -128,7 +146,7 @@ function Navbar() {
                       {unreadCount > 99 ? '99+' : unreadCount}
                     </span>
                   )}
-                </Link>
+                </NavLink>
 
                 <div className="navbar__user">
                   <div className="navbar__avatar">
@@ -136,7 +154,7 @@ function Navbar() {
                   </div>
                   <span className="navbar__username">Hi, {user.name?.split(' ')[0]}</span>
                 </div>
-                <Link to={DASH_PATH[user.role]} className="navbar__login">Dashboard</Link>
+                <NavLink to={DASH_PATH[user.role]} className="navbar__login">Dashboard</NavLink>
                 <button className="navbar__register" onClick={handleLogout}>Logout</button>
               </>
             )}
@@ -166,33 +184,44 @@ function Navbar() {
         aria-hidden={!menuOpen}
       >
         <ul className="navbar__drawer-links">
-          {NAV_LINKS.map((link) =>
-            link.type === 'scroll' ? (
+          {NAV_LINKS.map((link) => {
+            const active = isLinkActive(link);
+            return link.type === 'scroll' ? (
               <li key={link.id}>
-                <Link to={`/#${link.id}`} onClick={handleScroll(link.id)} className="navbar__drawer-link">
+                <NavLink
+                  to={`/#${link.id}`}
+                  onClick={handleScroll(link.id)}
+                  className={`navbar__drawer-link${active ? ' navbar__link--active' : ''}`}
+                >
                   {link.label}
-                </Link>
+                </NavLink>
               </li>
             ) : (
               <li key={link.to}>
-                <Link to={link.to} className="navbar__drawer-link" onClick={() => setMenuOpen(false)}>
+                <NavLink
+                  to={link.to}
+                  className={({ isActive }) =>
+                    `navbar__drawer-link${isActive ? ' navbar__link--active' : ''}`
+                  }
+                  onClick={() => { setMenuOpen(false); setActiveSection(null); }}
+                >
                   {link.label}
-                </Link>
+                </NavLink>
               </li>
-            )
-          )}
+            );
+          })}
         </ul>
 
         <div className="navbar__drawer-auth">
           {!user ? (
             <>
-              <Link to="/login"    className="navbar__drawer-login"    onClick={() => setMenuOpen(false)}>Login</Link>
-              <Link to="/register" className="navbar__drawer-register" onClick={() => setMenuOpen(false)}>Get Started</Link>
+              <NavLink to="/login"    className="navbar__drawer-login"    onClick={() => setMenuOpen(false)}>Login</NavLink>
+              <NavLink to="/register" className="navbar__drawer-register" onClick={() => setMenuOpen(false)}>Get Started</NavLink>
             </>
           ) : (
             <>
               {/* Messages link with badge in drawer */}
-              <Link
+              <NavLink
                 to={chatPath}
                 className="navbar__drawer-messages"
                 onClick={() => setMenuOpen(false)}
@@ -201,8 +230,8 @@ function Navbar() {
                 {showBadge && (
                   <span className="navbar__drawer-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
                 )}
-              </Link>
-              <Link to={DASH_PATH[user.role]} className="navbar__drawer-login" onClick={() => setMenuOpen(false)}>Dashboard</Link>
+              </NavLink>
+              <NavLink to={DASH_PATH[user.role]} className="navbar__drawer-login" onClick={() => setMenuOpen(false)}>Dashboard</NavLink>
               <button className="navbar__drawer-register" onClick={handleLogout}>Logout</button>
             </>
           )}
