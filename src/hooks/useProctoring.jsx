@@ -39,6 +39,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
+import * as tf from "@tensorflow/tfjs";
 
 // ── Tunables ────────────────────────────────────────────────────────────
 const VISION_INTERVAL_MS = 2500;      // how often to run face+phone inference
