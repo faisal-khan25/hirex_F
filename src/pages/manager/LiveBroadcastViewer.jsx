@@ -30,6 +30,7 @@ import webrtcService, { configureIceServers } from '../../services/webrtcService
 import VideoPlayer      from '../../components/VideoPlayer';
 import ConnectionStatus from '../../components/ConnectionStatus';
 import InterviewTimer   from '../../components/InterviewTimer';
+import ViolationFeed     from '../../components/ViolationFeed';
 
 import '../interview/interviewRoom.css';
 
@@ -149,6 +150,7 @@ function LiveBroadcastViewer() {
   const [rtcState,   setRtcState]   = useState('new');
   const [alerts,     setAlerts]     = useState([]);
   const [reconnectTick, setReconnectTick] = useState(0);
+  const [violations, setViolations] = useState([]); // NEW: AI Interview Monitoring
 
   const containerRef  = useRef(null);
   const cleanupFnsRef = useRef([]);
@@ -190,6 +192,23 @@ function LiveBroadcastViewer() {
           return;
         }
         setPhase('live');
+
+        // NEW: AI Interview Monitoring — backfill violations recorded
+        // before this viewer (re)connected.
+        if (data.liveSessionId) {
+          liveInterviewApi.getViolations(data.liveSessionId)
+            .then(({ data: log }) => {
+              const entries = (log?.entries ?? []).map(e => ({
+                id: e.id,
+                violationType: e.violationType,
+                severity: e.severity,
+                message: e.message,
+                timestamp: e.timestamp,
+              })).reverse();
+              setViolations(entries);
+            })
+            .catch(() => { /* non-fatal — live feed will still populate going forward */ });
+        }
       })
       .catch((err) => {
         if (cancelled) return;
@@ -247,6 +266,16 @@ function LiveBroadcastViewer() {
         }
       });
 
+      // NEW: AI Interview Monitoring — live violation feed, broadcast by the
+      // backend whenever the candidate's browser reports a proctoring event.
+      const unsubViolation = stompService.subscribe(`/topic/violation/${liveSessionId}`, (msg) => {
+        if (cancelled) return;
+        setViolations(prev => [msg, ...prev].slice(0, 200));
+        if (msg.severity === 'CRITICAL' || msg.severity === 'HIGH') {
+          addAlert(`Candidate alert: ${msg.message}`, msg.severity === 'CRITICAL' ? 'error' : 'warning');
+        }
+      });
+
       const unsubQuestion = stompService.subscribe(`/topic/live-interview/${liveSessionId}/question`, (msg) => {
         if (cancelled) return;
         setSummary((prev) => prev ? {
@@ -278,7 +307,7 @@ function LiveBroadcastViewer() {
         }
       });
 
-      cleanupFnsRef.current.push(unsubStatus, unsubCamera, unsubQuestion, unsubOffer, unsubIce);
+      cleanupFnsRef.current.push(unsubStatus, unsubCamera, unsubViolation, unsubQuestion, unsubOffer, unsubIce);
       stompService.sendJoin(token, 'RECRUITER');
     };
 
@@ -447,6 +476,9 @@ function LiveBroadcastViewer() {
           ))}
         </div>
       )}
+
+      {/* NEW: AI Interview Monitoring — live violation feed */}
+      <ViolationFeed violations={violations} />
 
       <div className="ir-body">
         <div className="ir-stage" style={{ gridTemplateColumns: '1fr' }}>
