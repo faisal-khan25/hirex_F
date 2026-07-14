@@ -63,6 +63,12 @@ function describeMediaError(err) {
 export function useAIInterviewBroadcast({ applicationId, active }) {
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
+  // NEW: AI Interview Monitoring — exposed as state (not just the internal
+  // ref) so a re-render actually happens when the stream becomes available,
+  // letting the caller wire useProctoring() to it.
+  const [stream, setStream] = useState(null);
+  const [liveSessionId, setLiveSessionId] = useState(null);
+  const [sessionToken, setSessionToken] = useState(null);
 
   // Mutable state that doesn't need to trigger re-renders.
   const ref = useRef({
@@ -96,6 +102,7 @@ export function useAIInterviewBroadcast({ applicationId, active }) {
     r.offerSent = false;
     r.started = false;
     setStatus('ended');
+    setStream(null);
   }, [teardownSignaling]);
 
   useEffect(() => {
@@ -263,6 +270,8 @@ export function useAIInterviewBroadcast({ applicationId, active }) {
       }
       r.sessionToken = token;
       r.liveSessionId = sessionMeta.liveSessionId;
+      setSessionToken(token);
+      setLiveSessionId(sessionMeta.liveSessionId);
 
       try {
         const { data: servers } = await liveInterviewApi.getIceServers();
@@ -279,6 +288,7 @@ export function useAIInterviewBroadcast({ applicationId, active }) {
       }
       if (r.cancelled) { mediaStream.getTracks().forEach((t) => t.stop()); return; }
       r.mediaStream = mediaStream;
+      setStream(mediaStream);
 
       const jwt = localStorage.getItem('token');
       try {
@@ -318,11 +328,12 @@ export function useAIInterviewBroadcast({ applicationId, active }) {
       stompService.disconnect();
       r.offerSent = false;
       r.started = false;
+      setStream(null);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, applicationId]);
 
-  return { status, error, stop };
+  return { status, error, stop, stream, liveSessionId, sessionToken };
 }
 
 export default useAIInterviewBroadcast;
