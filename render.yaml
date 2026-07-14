@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: frontend-hirex
+    runtime: static
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://backend-7aoi.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      # Vite fingerprints filenames in /assets, so these can be cached
+      # forever — a new deploy always ships new filenames.
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      # index.html must always be revalidated so users get the new
+      # asset references after a deploy.
+      - path: /index.html
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      # Prevents the app from being iframed on another origin (clickjacking).
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      # Only send the origin on cross-origin requests, full URL on same-origin.
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      # Forces HTTPS on repeat visits for 2 years, including subdomains.
+      - path: /*
+        name: Strict-Transport-Security
+        value: max-age=63072000; includeSubDomains; preload
+      # Explicitly disables browser features this app never uses.
+      - path: /*
+        name: Permissions-Policy
+        value: geolocation=(), interest-cohort=()
