@@ -3,6 +3,8 @@ import { useInterview } from '../context/Interviewcontext';
 import { useSpeechSynthesis } from '../hooks/useSpeechSynthesis ';
 import { useFullscreen } from './UseFullscreen';
 import { useAIInterviewBroadcast } from '../hooks/useAIInterviewBroadcast';
+import useProctoring from '../hooks/useProctoring';
+import stompService from '../services/stompService';
 import AIAvatar from './Aiavatar';
 import TimerBar from './TimerBar';
 import ProgressTracker from './Progresstracker';
@@ -47,6 +49,8 @@ const AIInterview = ({ applicationId }) => {
   const {
     status: broadcastStatus,
     stop: stopBroadcast,
+    stream: broadcastStream,
+    sessionToken: broadcastSessionToken,
   } = useAIInterviewBroadcast({
     applicationId,
     active: state.status === 'IN_PROGRESS',
@@ -57,6 +61,28 @@ const AIInterview = ({ applicationId }) => {
       stopBroadcast();
     }
   }, [state.status, stopBroadcast]);
+
+  // ── NEW: AI Interview Monitoring (phone / face / noise / tab-switch) ────
+  // Runs against the SAME local stream already captured for the broadcast
+  // above — no extra camera/mic prompt. Only active once the broadcast is
+  // actually live, matching the manual live-interview room's behavior.
+  const [proctorAlerts, setProctorAlerts] = useState([]);
+
+  const handleProctorViolation = useCallback((type, severity, message, metadata) => {
+    setProctorAlerts(prev => [{ message, severity, ts: Date.now() }, ...prev].slice(0, 3));
+
+    if (stompService.isConnected && broadcastSessionToken) {
+      stompService.sendViolation(broadcastSessionToken, type, severity, message, JSON.stringify(metadata ?? {}));
+    }
+  }, [broadcastSessionToken]);
+
+  useProctoring({
+    stream: broadcastStream,
+    enabled: broadcastStatus === 'live',
+    cameraOn: true,
+    micOn: true,
+    onViolation: handleProctorViolation,
+  });
 
   const [messages,     setMessages]     = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -447,6 +473,25 @@ const AIInterview = ({ applicationId }) => {
       style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}
     >
       <LiveBroadcastBadge status={broadcastStatus} />
+
+      {proctorAlerts.length > 0 && (
+        <div style={{ position: 'fixed', top: 12, right: 12, zIndex: 1000, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {proctorAlerts.map(a => (
+            <div key={a.ts} style={{
+              background: a.severity === 'CRITICAL' || a.severity === 'HIGH' ? '#fef2f2' : '#fffbeb',
+              border: `1px solid ${a.severity === 'CRITICAL' || a.severity === 'HIGH' ? '#fecaca' : '#fde68a'}`,
+              color: '#1a1a1a',
+              borderRadius: 8,
+              padding: '10px 14px',
+              fontSize: 13,
+              maxWidth: 300,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+            }}>
+              {a.message}
+            </div>
+          ))}
+        </div>
+      )}
       <TimerBar
         onFullscreenToggle={toggleFullscreen}
         onVoiceToggle={setVoiceEnabled}
