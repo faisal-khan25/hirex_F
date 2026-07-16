@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-allow: /jobseeker/
-allow: /manager/
-allow: /admin/
-allow: /interview/
-allow: /live-interview/
-
-Sitemap: https://hirex.in/sitemap.xml
