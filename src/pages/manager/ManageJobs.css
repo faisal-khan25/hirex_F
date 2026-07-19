@@ -1,0 +1,489 @@
+/* ==========================================================================
+   SYNTHX PRO INDUSTRIAL GLASS / METALLIC CORE FRAMEWORK
+   ========================================================================== */
+:root {
+  --fx-bg-primary: #10151b;
+  --fx-bg-window: #eef2f5;
+  --fx-text-main: #2b3641;
+  --fx-text-muted: #627282;
+  --fx-accent-purple: #8353e2;
+  --fx-accent-purple-hover: #6d3ecb;
+  --fx-border-color: #cbd5e0;
+  --fx-row-stripe: #f7fafc;
+  --fx-active-green: #38b2ac;
+  --fx-pill-bg-active: #e6fffa;
+  --fx-pill-txt-active: #234e52;
+  --fx-pill-bg-new: #ebf8ff;
+  --fx-pill-txt-new: #2b6cb0;
+}
+
+.fx-dashboard-frame {
+  background: var(--fx-bg-primary);
+  padding: 24px;
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.fx-inner-window {
+  background: var(--fx-bg-window);
+  width: 100%;
+  max-width: 1440px;
+  border-radius: 8px;
+  border: 4px solid #b8c2cc;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 10px 10px -5px rgba(0, 0, 0, 0.7);
+  padding: 24px;
+}
+
+/* ==========================================================================
+   HEADER ROW COMPONENT MATRIX
+   ========================================================================== */
+.fx-action-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.fx-title-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fx-main-heading {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--fx-text-main);
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.fx-heading-divider {
+  color: #a0aec0;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.fx-sub-heading {
+  font-size: 16px;
+  color: var(--fx-text-muted);
+}
+
+.fx-badge-count {
+  font-size: 12px;
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: var(--fx-text-main);
+  font-weight: 500;
+}
+
+.fx-control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BUTTON SYSTEMS */
+.fx-btn-primary {
+  background: #f7fafc;
+  border: 1px solid #718096;
+  border-radius: 4px;
+  color: var(--fx-text-main);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  transition: all 0.15s ease;
+}
+
+.fx-btn-primary:hover {
+  background: #edf2f7;
+  border-color: #4a5568;
+}
+
+.fx-btn-secondary {
+  background: #f7fafc;
+  border: 1px solid #718096;
+  border-radius: 4px;
+  color: var(--fx-text-main);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: all 0.15s ease;
+}
+
+.fx-btn-secondary:hover {
+  background: #edf2f7;
+}
+
+/* SEARCH FIELD PLATFORM */
+.fx-search-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--fx-border-color);
+  background: #ffffff;
+  border-radius: 4px;
+  padding-left: 8px;
+  height: 32px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.fx-input-search {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 13px;
+  color: var(--fx-text-main);
+  width: 160px;
+}
+
+.fx-btn-search {
+  border: none;
+  border-left: 1px solid var(--fx-border-color);
+  background: #f7fafc;
+  color: var(--fx-text-main);
+  font-size: 12px;
+  padding: 0 12px;
+  height: 100%;
+  cursor: pointer;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.fx-btn-search:hover {
+  background: #edf2f7;
+}
+
+/* ==========================================================================
+   SUB BAR FILTERS SYSTEM
+   ========================================================================== */
+.fx-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 6px 6px 0 0;
+  border: 1px solid var(--fx-border-color);
+  border-bottom: none;
+}
+
+.fx-filter-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fx-select {
+  height: 28px;
+  background: #ffffff;
+  border: 1px solid var(--fx-border-color);
+  border-radius: 4px;
+  font-size: 13px;
+  color: var(--fx-text-main);
+  padding: 0 24px 0 8px;
+}
+
+.fx-btn-utility {
+  background: #ffffff;
+  border: 1px solid var(--fx-border-color);
+  border-radius: 4px;
+  height: 28px;
+  padding: 0 12px;
+  font-size: 12px;
+  color: var(--fx-text-main);
+  cursor: pointer;
+}
+
+.fx-btn-utility:hover {
+  background: #f7fafc;
+}
+
+.fx-item-counter {
+  font-size: 12px;
+  color: var(--fx-text-muted);
+}
+
+/* ==========================================================================
+   CORE DATAGRID DATA VIEWS
+   ========================================================================== */
+.fx-grid-container {
+  background: #ffffff;
+  border: 1px solid var(--fx-border-color);
+  border-radius: 0 0 6px 6px;
+  overflow-x: auto;
+}
+
+.fx-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  color: var(--fx-text-main);
+  text-align: left;
+}
+
+.fx-data-table th, 
+.fx-data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: middle;
+}
+
+.fx-data-table juries th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  color: #4a5568;
+  background: #ffffff;
+  border-bottom: 2px solid #cbd5e0;
+}
+
+.fx-data-row:nth-child(even) {
+  background: var(--fx-row-stripe);
+}
+
+.fx-data-row:hover {
+  background: #edf2f7;
+}
+
+.fx-col-cb {
+  width: 40px;
+  text-align: center;
+}
+
+.fx-checkbox {
+  accent-color: var(--fx-accent-purple);
+  cursor: pointer;
+}
+
+/* INTERACTIVE TITLE MATRIX CELLS */
+.fx-cell-interactive {
+  position: relative;
+}
+
+.fx-row-title-link {
+  color: #2b6cb0;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-block;
+  transition: color 0.1s ease;
+}
+
+.fx-row-title-link:hover {
+  color: var(--fx-accent-purple);
+}
+
+.fx-row-action-links {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #a0aec0;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out;
+}
+
+.fx-data-row:hover .fx-row-action-links {
+  opacity: 1;
+}
+
+.fx-action-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #4a5568;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.fx-action-link-btn:hover {
+  color: var(--fx-accent-purple);
+}
+
+.fx-action-link-btn.fx-danger {
+  color: #c53030;
+}
+
+.fx-action-link-btn.fx-danger:hover {
+  color: #9b2c2c;
+}
+
+.fx-action-link-sep {
+  margin: 0 4px;
+}
+
+/* FONTS UTILITIES */
+.fx-text-muted { color: var(--fx-text-muted); }
+.fx-font-mono { font-family: 'SFMono-Regular', Consolas, "Liberation Mono", Menlo, monospace; }
+.fx-weight-bold { font-weight: 600; }
+.fx-text-right { text-align: right; }
+
+/* STATUS BADGES PILLS SYSTEM */
+.fx-status-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-left: 4px;
+  display: inline-block;
+}
+
+.pill-active {
+  background: var(--fx-pill-bg-active);
+  color: var(--fx-pill-txt-active);
+  border: 1px solid #b2f5ea;
+}
+
+.pill-new {
+  background: var(--fx-pill-bg-new);
+  color: var(--fx-pill-txt-new);
+  border: 1px solid #bee3f8;
+}
+
+.fx-table-loader {
+  text-align: center;
+  padding: 48px !important;
+  color: var(--fx-text-muted);
+  font-style: italic;
+}
+
+/* ==========================================================================
+   MODAL WINDOW ARCHITECTURE
+   ========================================================================== */
+.fx-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 21, 27, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+.fx-modal-window {
+  background: var(--fx-bg-window);
+  border: 3px solid #b8c2cc;
+  border-radius: 8px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  padding: 24px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.fx-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--fx-border-color);
+  padding-bottom: 12px;
+}
+
+.fx-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fx-text-main);
+  margin: 0;
+}
+
+.fx-modal-close-trigger {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: var(--fx-text-muted);
+  cursor: pointer;
+}
+
+.fx-modal-form { display: flex; flex-direction: column; gap: 16px; }
+.fx-form-split-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fx-form-group { display: flex; flex-direction: column; gap: 6px; }
+.fx-form-label { font-size: 12px; font-weight: 600; color: var(--fx-text-main); }
+
+.fx-form-input, .fx-form-select, .fx-form-textarea {
+  border: 1px solid var(--fx-border-color);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 13px;
+  background: #ffffff;
+  color: var(--fx-text-main);
+  outline: none;
+}
+
+.fx-form-input:focus, .fx-form-select:focus, .fx-form-textarea:focus {
+  border-color: var(--fx-accent-purple);
+  box-shadow: 0 0 0 2px rgba(131, 83, 226, 0.2);
+}
+
+.fx-system-error-msg {
+  background: #fff5f5;
+  border-left: 4px solid #e53e3e;
+  color: #c53030;
+  padding: 12px;
+  font-size: 13px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.fx-modal-action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 2px solid var(--fx-border-color);
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.fx-modal-btn-submit {
+  background: var(--fx-accent-purple);
+  border: none;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 8px 18px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.15s ease;
+}
+
+.fx-modal-btn-submit:hover {
+  background: var(--fx-accent-purple-hover);
+}
+
+.fx-modal-btn-cancel {
+  background: #ffffff;
+  border: 1px solid var(--fx-border-color);
+  border-radius: 4px;
+  color: var(--fx-text-main);
+  padding: 8px 18px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.fx-modal-btn-cancel:hover {
+  background: #f7fafc;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN BREAKPOINT
+   ========================================================================== */
+@media (max-width: 840px) {
+  .fx-action-header { flex-direction: column; align-items: flex-start; }
+  .fx-control-group { width: 100%; flex-wrap: wrap; }
+  .fx-search-wrapper { width: 100%; justify-content: space-between; }
+  .fx-input-search { width: 100%; }
+  .fx-filter-bar { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .fx-form-split-row { grid-template-columns: 1fr; }
+}

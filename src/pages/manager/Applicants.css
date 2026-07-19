@@ -1,0 +1,332 @@
+/* ═════════════════════════════════════════════════════════════════
+   NAUKRI RESDEX PROFILE MATRIX STYLE PATTERN
+   High-density corporate structural data interfaces.
+   ═════════════════════════════════════════════════════════════════ */
+
+.naukri-workspace {
+  display: flex;
+  background-color: #f4f6f9;
+  min-height: calc(100vh - 64px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+/* ─── Assignment Panel Registry ─── */
+.naukri-sidebar {
+  width: 260px;
+  min-width: 260px;
+  background-color: #1e2a38;
+  color: #fff;
+  padding: 20px 12px;
+}
+
+.sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #6b7c93;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #2d3d4f;
+  margin-bottom: 16px;
+}
+
+.job-node {
+  padding: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  transition: background-color 0.1s ease;
+}
+
+.job-node:hover { background-color: #26364a; }
+.job-node.active { background-color: #026bde; }
+
+.job-node-title { font-size: 13.5px; font-weight: 600; line-height: 1.3; }
+.job-node-meta { font-size: 11.5px; color: #a0aec0; margin-top: 4px; }
+.job-node.active .job-node-meta { color: #d2e6ff; }
+
+/* ─── Main Operations Panel ─── */
+.naukri-panel {
+  flex: 1;
+  padding: 24px 32px;
+  min-width: 0;
+}
+
+.naukri-hdr h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #091e42;
+  margin: 0 0 4px 0;
+}
+
+.hdr-id {
+  font-size: 12px;
+  color: #6b778c;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.naukri-hdr p { font-size: 13px; color: #505f79; margin: 0; }
+
+/* ─── Pipeline Ribbon Tabs ─── */
+.naukri-tabs-ribbon {
+  display: flex;
+  gap: 4px;
+  margin-top: 20px;
+  border-bottom: 2px solid #dfe1e6;
+}
+
+.ribbon-tab {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #505f79;
+  cursor: pointer;
+  position: relative;
+  bottom: -2px;
+  border-bottom: 2px solid transparent;
+}
+
+.ribbon-tab:hover { color: #091e42; }
+.ribbon-tab.active {
+  color: #0065ff;
+  border-bottom-color: #0065ff;
+}
+
+.tab-badge {
+  font-size: 11px;
+  background-color: #dfe1e6;
+  color: #42526e;
+  padding: 2px 6px;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+
+.ribbon-tab.active .tab-badge {
+  background-color: #e6f0ff;
+  color: #0065ff;
+}
+
+/* ─── Search Filtering Strip ─── */
+.naukri-filter-bar {
+  display: flex;
+  gap: 10px;
+  background-color: #fff;
+  padding: 12px;
+  margin-top: 16px;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+}
+
+.nk-search {
+  flex: 1;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+.nk-select {
+  border: 1px solid #dfe1e6;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  color: #333;
+  outline: none;
+}
+
+/* ─── Custom Card Profile Interface Stack ─── */
+.profiles-feed {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.candidate-profile-card {
+  background-color: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: border-color 0.12s ease;
+}
+
+.candidate-profile-card:hover {
+  border-color: #4c9aff;
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.applicant-primary-info {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nk-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ebecf0;
+  color: #42526e;
+  font-weight: 700;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.candidate-headline-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0052cc;
+  margin: 0 0 4px 0;
+}
+
+.candidate-headline-name:hover {
+  text-decoration: underline;
+}
+
+.verified-badge {
+  font-size: 11px;
+  color: #00875a;
+  background-color: #e3fcef;
+  padding: 1px 6px;
+  border-radius: 3px;
+  font-weight: 500;
+  margin-left: 8px;
+}
+
+.candidate-subtext { font-size: 12px; color: #6b778c; margin: 0; }
+
+/* ─── Metrics Indicators Track ─── */
+.metric-rating-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.rating-pill {
+  border: 1px solid #dfe1e6;
+  border-radius: 4px;
+  display: flex;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+.rating-pill .lbl { background-color: #f4f5f7; padding: 4px 8px; color: #505f79; font-weight: 500; }
+.rating-pill .val { background-color: #fff; padding: 4px 8px; color: #091e42; font-weight: 700; }
+
+.state-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 3px;
+  letter-spacing: 0.03em;
+}
+
+.state-badge.applied { background-color: #deebff; color: #0747a6; }
+.state-badge.shortlisted { background-color: #e3fcef; color: #006644; }
+.state-badge.interview { background-color: #fff0b3; color: #172b4d; }
+.state-badge.hired { background-color: #e3fcef; color: #006644; border: 1px dashed #00875a; }
+.state-badge.rejected { background-color: #ffebe6; color: #bf2600; }
+
+/* ─── Middle Structural Metrics Grid ─── */
+.candidate-structural-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 20px;
+  margin: 16px 0 16px 60px;
+  background-color: #f4f5f7;
+  padding: 12px 16px;
+  border-radius: 4px;
+}
+
+.spec-unit { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.spec-lbl { font-size: 11.5px; color: #6b778c; font-weight: 500; text-transform: uppercase; }
+.spec-val { font-size: 13px; color: #172b4d; font-weight: 600; }
+.user-email { color: #0052cc; font-weight: 500; }
+
+/* ─── Structural Footer Tray Button Options ─── */
+.card-action-tray {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 60px;
+  padding-top: 12px;
+  border-top: 1px dashed #dfe1e6;
+}
+
+.action-link-btn {
+  background: none;
+  border: none;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #505f79;
+  cursor: pointer;
+  padding: 0;
+  margin-right: 18px;
+}
+
+.action-link-btn:hover { color: #0052cc; text-decoration: underline; }
+.action-link-btn.primary-stream { color: #0052cc; }
+
+.tray-btn {
+  border: 1px solid #dfe1e6;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 6px;
+}
+
+.btn-success-action { color: #006644; }
+.btn-success-action:hover:not(:disabled) { background-color: #e3fcef; border-color: #abf5d1; }
+
+.btn-danger-action { color: #bf2600; }
+.btn-danger-action:hover:not(:disabled) { background-color: #ffebe6; border-color: #ffbdad; }
+
+.tray-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.archived-dim { opacity: 0.65; }
+
+/* ─── Structural Navigation Infrastructure ─── */
+.naukri-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  font-size: 13px;
+}
+
+.naukri-pagination button {
+  background-color: #fff;
+  border: 1px solid #dfe1e6;
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-weight: 600;
+  color: #42526e;
+  cursor: pointer;
+}
+
+.naukri-pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+.empty-feed-card, .empty-panel-prompt, .feed-status-msg {
+  background-color: #fff;
+  border: 1px dashed #dfe1e6;
+  border-radius: 4px;
+  padding: 40px;
+  text-align: center;
+  color: #6b778c;
+  font-size: 14px;
+}

@@ -1,0 +1,235 @@
+:root {
+  --bg-app: #f5f6fa;
+  --bg-sidebar: #0f111e;        /* Dark deep slate background from design */
+  --text-light: #ffffff;
+  --text-muted: #747a95;
+  --text-dark: #111424;
+  
+  --sidebar-width-expanded: 260px;
+  --sidebar-width-collapsed: 78px;
+  --transition-speed: 0.25s;
+  --transition-curve: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.seeker-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-app);
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* ==========================================================================
+   SIDEBAR CORE STRUCTURE
+   ========================================================================== */
+.seeker-sidebar {
+  width: var(--sidebar-width-expanded);
+  background-color: var(--bg-sidebar);
+  color: var(--text-light);
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 0.85rem;
+  transition: width var(--transition-speed) var(--transition-curve);
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Header & Toggle Button Setup */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: white;
+}
+
+.logo-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: opacity var(--transition-speed);
+}
+
+.sidebar-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: var(--text-muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.sidebar-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--text-light);
+}
+
+/* ==========================================================================
+   NAVIGATION LINKS & GROUPS
+   ========================================================================== */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.nav-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.sidebar-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 0.5rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition: opacity var(--transition-speed);
+}
+
+/* Link Aesthetics */
+.seeker-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.seeker-link:hover {
+  color: var(--text-light);
+}
+
+/* White Block Active Style matching design layout */
+.seeker-link.active {
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+
+.link-text {
+  white-space: nowrap;
+  transition: opacity var(--transition-speed);
+}
+
+/* ==========================================================================
+   PROFILE CARD BLOCK
+   ========================================================================== */
+.seeker-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin-top: auto;
+}
+
+.seeker-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #10b981; /* Green tone for candidate variant */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  flex-shrink: 0;
+}
+
+.profile-details {
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity var(--transition-speed);
+}
+
+.profile-details h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.profile-details p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Badge overlay utilities */
+.nav-icon-wrap { position: relative; display: inline-flex; }
+.nav-icon-badge {
+  position: absolute; top: -4px; right: -6px;
+  background-color: #ef4444; color: white;
+  font-size: 0.65rem; font-weight: 700;
+  padding: 1px 4px; border-radius: 10px; line-height: 1;
+}
+
+/* ==========================================================================
+   COLLAPSED STATE CONSTRAINTS
+   ========================================================================== */
+.sidebar-collapsed .seeker-sidebar {
+  width: var(--sidebar-width-collapsed);
+}
+
+.sidebar-collapsed .logo-text,
+.sidebar-collapsed .sidebar-title,
+.sidebar-collapsed .link-text,
+.sidebar-collapsed .profile-details {
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+}
+
+.sidebar-collapsed .sidebar-header {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-toggle-btn {
+  position: absolute;
+  right: 4px;
+}
+
+.sidebar-collapsed .seeker-link {
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+/* CONTENT APP WINDOW */
+.seeker-main {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}

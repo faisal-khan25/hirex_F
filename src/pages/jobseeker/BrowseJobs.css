@@ -1,0 +1,373 @@
+/* ============================================================
+   BROWSE JOBS — CLEAN DATA MANAGEMENT ADMIN STYLESHEET
+   Refactored for tabular data rows, dense grid alignment & metrics
+   ============================================================ */
+
+* { box-sizing: border-box; }
+
+.bj-page {
+  min-height: 100vh;
+  background: #f8fafc; /* Crisp light administrative slate base background */
+  padding: 32px 24px 64px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #334155;
+}
+
+.bj-inner {
+  max-width: 1440px; /* Widened layout frame grid to house tabular data comfortably */
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── COMPACT ADM SIDEBAR ─────────────────────────────────── */
+.bj-sidebar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  position: sticky;
+  top: 32px;
+}
+
+.bj-sidebar-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  margin: 0 0 16px;
+}
+
+.bj-filter-group { margin-bottom: 20px; }
+.bj-filter-group h4 {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 10px;
+}
+
+.bj-filter-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.bj-filter-group input[type="checkbox"] {
+  accent-color: #4f46e5;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.bj-sidebar-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 16px 0 12px;
+}
+
+.bj-clear-btn {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.bj-clear-btn:hover:not(:disabled) {
+  border-color: #4f46e5;
+  color: #4f46e5;
+  background: #f5f3ff;
+}
+.bj-clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.bj-location-input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 13px;
+  outline: none;
+}
+.bj-location-input:focus { border-color: #4f46e5; }
+
+.bj-salary-range { display: flex; align-items: center; gap: 6px; }
+.bj-salary-range input {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 12px;
+  outline: none;
+}
+.bj-salary-range input:focus { border-color: #4f46e5; }
+.bj-salary-range span { color: #94a3b8; font-size: 12px; }
+
+/* ── HEADER PANELS ────────────────────────────────────────── */
+.bj-main { min-width: 0; }
+
+.bj-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.bj-topbar h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.4px;
+}
+.bj-count { font-size: 13px; color: #64748b; margin: 4px 0 0; }
+
+.bj-sort { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #475569; }
+.bj-sort select {
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  background: #fff;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+}
+
+/* ── SYSTEM DATA SEARCH TOOLBAR ────────────────────────────── */
+.bj-toolbar-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.bj-search-form { margin-bottom: 12px; }
+.bj-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 8px 12px;
+  background: #fff;
+}
+.bj-search-box:focus-within { border-color: #4f46e5; }
+.bj-search-input { flex: 1; border: none; outline: none; font-size: 14px; color: #0f172a; }
+.bj-search-btn {
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bj-search-btn:hover { background: #4338ca; }
+.bj-clear-x { background: none; border: none; font-size: 18px; color: #94a3b8; cursor: pointer; }
+
+.bj-quick-filters { display: flex; flex-wrap: wrap; gap: 8px; }
+.bj-qf-btn {
+  background: #f1f5f9;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+  cursor: pointer;
+}
+.bj-qf-btn:hover, .bj-qf-btn.active {
+  background: #e0e7ff;
+  color: #4f46e5;
+  border-color: #c7d2fe;
+}
+
+/* ── TABULAR RECORDS STRUCTURAL LAYOUT ───────────────────────── */
+.bj-table-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+/* Structural Header Alignment Row */
+.bj-table-header {
+  display: flex;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+}
+
+/* Flex Column Distribution Parameters */
+.bj-col-info { flex: 2.2; display: flex; align-items: center; gap: 12px; min-width: 0; }
+.bj-col-meta { flex: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.bj-col-skills { flex: 1.5; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; padding: 0 8px; }
+.bj-col-actions { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+
+/* Dashboard Data Body Rows */
+.bj-table-row {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.15s ease;
+}
+.bj-table-row:last-child { border-bottom: none; }
+.bj-table-row:hover { background: #f8fafc; }
+
+/* Logo initials container block */
+.bj-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #475569;
+  flex-shrink: 0;
+}
+
+.bj-info-text { min-width: 0; }
+.bj-title-wrapper { display: flex; align-items: center; gap: 8px; }
+.bj-job-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bj-badge-new-dot {
+  background: #ef4444;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.bj-company { font-size: 13px; color: #64748b; margin: 2px 0 0; }
+.bj-posted-stamp { font-size: 11px; color: #94a3b8; display: block; margin-top: 2px; }
+
+/* Grid Cells inside the Parameters column */
+.bj-meta-cell { display: flex; flex-direction: column; min-width: 0; }
+.bj-meta-lbl { font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 600; }
+.bj-meta-val {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+.bj-meta-val.text-accent { color: #4f46e5; font-weight: 600; }
+.bj-meta-val.highlight { color: #0f172a; font-weight: 600; }
+
+/* Admin Framework Badges */
+.bj-table-skill-tag {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Action Control Items */
+.bj-save-action-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px;
+  color: #94a3b8;
+  transition: color 0.15s;
+}
+.bj-save-action-icon:hover { color: #e11d48; }
+
+.bj-action-apply-btn {
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.bj-action-apply-btn:hover { background: #4f46e5; }
+.bj-action-disabled-status { font-size: 11px; color: #94a3b8; font-style: italic; }
+
+/* ── PAGINATION, LOADING & UTILITIES ────────────────────── */
+.bj-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; }
+.bj-page-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+}
+.bj-page-btn:hover:not(:disabled) { border-color: #4f46e5; color: #4f46e5; }
+.bj-page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.bj-page-status { font-size: 12px; font-weight: 500; color: #64748b; }
+
+.bj-loading { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 48px; color: #64748b; font-size: 13px; }
+.bj-spinner { width: 16px; height: 16px; border: 2px solid #e2e8f0; border-top-color: #4f46e5; border-radius: 50%; animation: spin 0.6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.bj-empty { background: #fff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 48px; text-align: center; }
+.bj-empty-icon { font-size: 32px; margin-bottom: 12px; }
+.bj-empty h3 { font-size: 16px; margin: 0 0 4px; color: #0f172a; }
+.bj-empty p { font-size: 13px; color: #64748b; margin: 0; }
+
+/* ── MODALS ─────────────────────────────────────────────── */
+.bj-modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+.bj-modal { background: #fff; border-radius: 8px; max-width: 500px; width: 100%; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); padding: 20px; }
+.bj-modal-head { display: flex; align-items: center; gap: 12px; position: relative; }
+.bj-modal-head h2 { font-size: 16px; margin: 0; color: #0f172a; }
+.bj-modal-head p { font-size: 13px; color: #64748b; margin: 2px 0 0; }
+.bj-modal-close { position: absolute; top: 0; right: 0; background: none; border: none; font-size: 20px; cursor: pointer; color: #94a3b8; }
+.bj-modal-divider { height: 1px; background: #e2e8f0; margin: 16px 0; }
+.bj-modal-label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.bj-modal-label span { color: #94a3b8; font-weight: 400; }
+.bj-modal textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px; font-size: 13px; resize: vertical; outline: none; }
+.bj-modal textarea:focus { border-color: #4f46e5; }
+.bj-modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 16px; }
+.bj-modal-cancel { background: #fff; border: 1px solid #cbd5e1; border-radius: 6px; padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer; color: #475569; }
+.bj-modal-submit { background: #4f46e5; color: #fff; border: none; border-radius: 6px; padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer; }
+
+.bj-alert { padding: 10px 14px; border-radius: 6px; font-size: 13px; font-weight: 500; }
+.bj-alert-success { background: #dcfce7; color: #15803d; }
+.bj-alert-error { background: #fee2e2; color: #b91c1c; }
