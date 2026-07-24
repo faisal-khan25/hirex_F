@@ -6,7 +6,7 @@ services:
     staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
-        value: https://backend-7aoi.onrender.com
+        value: https://hirex-f.onrender.com
     routes:
       - type: rewrite
         source: /*
